@@ -64,3 +64,7 @@ Nothing new found for this requirement
 
 ### 12. Show Calendar Event
 Nothing new found for this requirement
+
+## Updates and assumptions after discussions at workshop
+* Person/User/System classes used for authentication purposes has been removed because it's too technical and doesn't really explain the domain we try to model.
+* Role/class Secretary has also been removed after the assumption that it's not necessary to know which secretary assigned which berth.
