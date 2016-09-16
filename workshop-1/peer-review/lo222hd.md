@@ -12,7 +12,7 @@ Some examples of that is using names like Boat and Berth.
 As mentioned above the domain model use good conceptual classes except for the User since that is a bit generic and don't give a clear representation of the Member and the other roles. For example it's only the Member who probably owns a boat and wants a berth for it.
 A part of the domain model that might be a weakness and debatable is the Calendar since it's first attribute Event probably should be an conceptual class because it's not a text or a number [1, p241]. If the Event then is a conceptual class the Calendar might be a duplicate of data since it's just a report of different events [1, p238].
 
-## Would this domain model help 
+## Would this domain model help a developer
 It's easy to grasp and should therefor aid the developer in understanding and communicating over the domain.
 
 ## Would a domain expert understand the model
