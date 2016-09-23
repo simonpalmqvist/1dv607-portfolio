@@ -6,6 +6,8 @@ public class ConsoleMain extends ConsoleUI {
 
     public ConsoleMain() {
         actionInstructions.put(Action.CreateMember, "Create member");
+        actionInstructions.put(Action.ShowMember, "Show member");
+        actionInstructions.put(Action.DeleteMember, "Delete member");
         actionInstructions.put(Action.Exit, "Quit application");
     }
 

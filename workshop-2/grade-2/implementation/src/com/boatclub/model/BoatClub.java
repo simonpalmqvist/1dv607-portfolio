@@ -10,7 +10,21 @@ public class BoatClub {
         members.add(newMember);
     }
 
-    public Member findMember (int id) {
-        return members.get(id);
+    public Member findMember (int id) throws Exception {
+        for (Member member : members) {
+            if (member.getId() == id) {
+                return member;
+            }
+        }
+        throw new Exception("Member not found");
+    }
+
+    public void deleteMember (int id) {
+        try {
+            Member member = findMember(id);
+            members.remove(member);
+        } catch (Exception error) {
+            System.out.println(error.getMessage());
+        }
     }
 }
