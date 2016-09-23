@@ -1,17 +1,16 @@
 package com.boatclub.controller;
 
 import com.boatclub.model.BoatClub;
-import com.boatclub.view.ConsoleUI;
-import com.boatclub.view.ConsoleUI.Action;
+import com.boatclub.model.Member;
+import com.boatclub.view.ConsoleMain;
 
-public class User {
+public class MainController {
 
-    private ConsoleUI ui;
+    private ConsoleMain ui = new ConsoleMain();
     private BoatClub club = new BoatClub();
+    private MemberController memberController = new MemberController();
 
-    public User(ConsoleUI ui) {
-        this.ui = ui;
-    }
+    private Action[] availableActions = new Action[]{Action.CreateMember, Action.ShowMember, Action.Exit};
 
     public void start () throws Exception {
         boolean keepApplicationRunning = true;
@@ -19,11 +18,14 @@ public class User {
         ui.displayStartupInformation();
 
         while (keepApplicationRunning) {
-            Action choice = ui.getUserRequest(new Action[]{Action.CreateMember, Action.Exit});
+            Action choice = ui.getUserRequest(availableActions);
 
             switch (choice) {
                 case CreateMember:
-                    showCreateMember();
+                    createMember();
+                    break;
+                case ShowMember:
+                    showMember();
                     break;
                 case Exit:
                     ui.displayExitMessage();
@@ -35,10 +37,15 @@ public class User {
         }
     }
 
-    private void showCreateMember () {
+    private void createMember () {
         String name = ui.getInputName();
         String pno = ui.getInputPno();
         club.createMember(name, pno);
         ui.displayAddedUser();
+    }
+
+    private void showMember () {
+        int id = ui.getInputMemberId();
+        memberController.showMember(club.findMember(id));
     }
 }

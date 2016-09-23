@@ -1,23 +1,15 @@
 package com.boatclub.view;
 
+import com.boatclub.controller.Action;
+
 import java.util.Scanner;
 import java.util.Map;
 import java.util.HashMap;
 
-public class ConsoleUI {
+abstract class ConsoleUI {
 
-    public enum Action {
-        CreateMember,
-        Exit
-    }
-
-    private Scanner uiInput = new Scanner(System.in);
-    private Map<Action, String> actionInstructions = new HashMap<>();
-
-    public ConsoleUI () {
-        actionInstructions.put(Action.CreateMember, "Create member");
-        actionInstructions.put(Action.Exit, "Quit application");
-    }
+    protected Scanner input = new Scanner(System.in);
+    protected Map<Action, String> actionInstructions = new HashMap<>();
 
     public Action getUserRequest (Action[] availableActions) {
         boolean acceptedInputValue = false;
@@ -27,37 +19,22 @@ public class ConsoleUI {
 
         while (!acceptedInputValue) {
             System.out.print("Action: ");
-            if (uiInput.hasNextInt()) {
-                choice = uiInput.nextInt();
+            if (input.hasNextInt()) {
+                choice = input.nextInt();
                 acceptedInputValue = choice >= 0 && choice < availableActions.length;
             } else {
-                uiInput.next();
+                input.next();
             }
         }
+        System.out.println();
+
         return availableActions[choice];
     }
 
-    public void displayStartupInformation () {
-        System.out.println("Welcome to the Boat Club");
-    }
-
-
-    public void displayAddedUser () {
-        System.out.println("New member added");
-    }
-
-    public void displayExitMessage () {
-        System.out.println("ByeBye");
-    }
-
-    public String getInputName () {
-        System.out.print("Add new members name: ");
-        return uiInput.next();
-    }
-
-    public String getInputPno () {
-        System.out.print("Add new members Personal Number: ");
-        return uiInput.next();
+    public void waitForContinue () {
+        System.out.println();
+        System.out.println("Press enter to continue");
+        input.hasNextLine();
     }
 
     private void displayActions (Action[] availableActions) {

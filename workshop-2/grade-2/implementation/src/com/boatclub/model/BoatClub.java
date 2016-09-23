@@ -9,4 +9,8 @@ public class BoatClub {
         Member newMember = new Member(name, pno, members.size());
         members.add(newMember);
     }
+
+    public Member findMember (int id) {
+        return members.get(id);
+    }
 }

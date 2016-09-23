@@ -1,16 +1,15 @@
 package com.boatclub;
 
-import com.boatclub.controller.User;
-import com.boatclub.view.ConsoleUI;
+import com.boatclub.controller.MainController;
+import com.boatclub.view.ConsoleMain;
 
 public class Main {
 
     public static void main(String[] args) {
-        ConsoleUI ui = new ConsoleUI();
-        User user = new User(ui);
+        MainController mainController = new MainController();
 
         try {
-            user.start();
+            mainController.start();
         } catch (Exception error) {
             System.out.println("Application crashed with error: " + error.getMessage());
         }
