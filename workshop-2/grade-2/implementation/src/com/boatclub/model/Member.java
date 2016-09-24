@@ -5,7 +5,7 @@ public class Member {
     private String pno;
     private int id;
 
-    public Member(String name, String pno, int id) {
+    Member(String name, String pno, int id) {
         this.name = name;
         this.pno = pno;
         this.id = id;
@@ -15,8 +15,16 @@ public class Member {
         return name;
     }
 
+    public void setName (String newName) {
+        name = newName;
+    }
+
     public String getPno () {
         return pno;
+    }
+
+    public void setPno (String newPno) {
+        pno = newPno;
     }
 
     public int getId () {

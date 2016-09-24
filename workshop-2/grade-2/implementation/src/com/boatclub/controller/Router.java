@@ -3,9 +3,18 @@ package com.boatclub.controller;
 import com.boatclub.view.ConsoleMenu;
 
 public class Router {
+    public enum Action {
+        CreateMember,
+        UpdateMember,
+        ShowMember,
+        DeleteMember,
+        BackToStart,
+        Exit
+    }
 
     private ConsoleMenu ui = new ConsoleMenu();
-    private MainController main =  new MainController();
+    private ClubController club =  new ClubController();
+    private MemberController member =  new MemberController();
     private Action[] menu;
 
     public void start () throws Exception {
@@ -19,14 +28,17 @@ public class Router {
 
             switch (choice) {
                 case CreateMember:
-                    main.createMember();
+                    club.showCreateMember();
                     break;
                 case ShowMember:
-                    main.showMember();
+                    member.show(club.showChooseMember());
                     setMemberMenu();
                     break;
+                case UpdateMember:
+                    member.updateMember();
+                    break;
                 case DeleteMember:
-                    main.deleteMember();
+                    club.showDeleteMember();
                     break;
                 case BackToStart:
                     setStartMenu();
@@ -46,6 +58,6 @@ public class Router {
     }
 
     private void setMemberMenu () {
-        menu = new Action[] { Action.BackToStart };
+        menu = new Action[] { Action.UpdateMember, Action.BackToStart };
     }
 }

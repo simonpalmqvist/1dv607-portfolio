@@ -1,6 +1,6 @@
 package com.boatclub.view;
 
-import com.boatclub.controller.Action;
+import com.boatclub.controller.Router;
 
 public class ConsoleMenu extends ConsoleUI {
 
@@ -12,11 +12,11 @@ public class ConsoleMenu extends ConsoleUI {
         System.out.println("Bye Bye");
     }
 
-    public Action getUserRequest (Action[] availableActions) {
+    public Router.Action getUserRequest (Router.Action[] availableActions) {
         boolean acceptedInputValue = false;
         int choice = 0;
 
-        displayActions(availableActions);
+        displayMenu(availableActions);
 
         while (!acceptedInputValue) {
             System.out.print("Action: ");
@@ -32,15 +32,15 @@ public class ConsoleMenu extends ConsoleUI {
         return availableActions[choice];
     }
 
-    private void displayActions (Action[] availableActions) {
+    private void displayMenu(Router.Action[] availableActions) {
         System.out.println();
         for (int i = 0 ; i < availableActions.length; i++) {
-            System.out.println( actionToMenuTitle(i, availableActions[i]) );
+            displayMenuOption(i, availableActions[i]);
         }
         System.out.println();
     }
 
-    private String actionToMenuTitle (int position , Action action) {
+    private void displayMenuOption (int position , Router.Action action) {
         String title = position + ". ";
 
         switch (action) {
@@ -53,6 +53,9 @@ public class ConsoleMenu extends ConsoleUI {
             case DeleteMember:
                 title += "Delete a member";
                 break;
+            case UpdateMember:
+                title += "Change member";
+                break;
             case BackToStart:
                 title += "Back";
                 break;
@@ -60,9 +63,11 @@ public class ConsoleMenu extends ConsoleUI {
                 title += "Quit application";
                 break;
             default:
-                title += "Not found";
+                title = "";
         }
 
-        return title;
+        if (!title.isEmpty()) {
+            System.out.println(title);
+        }
     }
 }
