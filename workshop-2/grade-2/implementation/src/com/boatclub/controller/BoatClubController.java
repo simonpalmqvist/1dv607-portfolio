@@ -39,7 +39,7 @@ public class BoatClubController {
                     view.displayExitMessage();
                     break;
                 default:
-                    throw new Exception("Unvalid option");
+                    throw new Exception("This action is not implemented");
             }
         }
     }
@@ -61,8 +61,12 @@ public class BoatClubController {
     }
 
     private void showDeleteMember() {
-        int id = view.getInputMemberId();
-        model.deleteMember(id);
-        System.out.println("Deleted member");
+        try {
+            int id = view.getInputMemberId();
+            model.deleteMember(id);
+            view.displayUserDeleted();
+        } catch (Exception error) {
+            view.displayUserNotFound();
+        }
     }
 }

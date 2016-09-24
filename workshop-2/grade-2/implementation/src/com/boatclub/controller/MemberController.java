@@ -27,7 +27,7 @@ public class MemberController {
                     goBack = true;
                     break;
                 default:
-                    throw new Exception("Unvalid option");
+                    throw new Exception("This action is not implemented");
             }
         }
     }

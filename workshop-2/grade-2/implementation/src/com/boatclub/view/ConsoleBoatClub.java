@@ -25,6 +25,10 @@ public class ConsoleBoatClub extends ConsoleUI {
         outputLine("User not found");
     }
 
+    public void displayUserDeleted() {
+        outputLine("Deleted member");
+    }
+
     public int getInputMemberId () {
         output("Members ID: ");
         return input.nextInt();
