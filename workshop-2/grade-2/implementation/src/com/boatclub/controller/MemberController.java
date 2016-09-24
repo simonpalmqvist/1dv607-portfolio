@@ -9,6 +9,5 @@ public class MemberController {
 
     public void showMember(Member member) {
         ui.displayMember(member.getName(), member.getPno(), member.getId());
-        ui.waitForContinue();
     }
 }
