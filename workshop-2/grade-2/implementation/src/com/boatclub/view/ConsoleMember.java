@@ -16,25 +16,22 @@ public class ConsoleMember extends ConsoleUI {
     }
 
     public String displayUpdateName (String currentName) {
-        String name = currentName;
-
-        if (displayYesAndNoQuestion("Change name (" + currentName + ")?")) {
-            output("Change to: ");
-            name = input.next();
-        }
-
-        return name;
+        return displayUpdateField("name", currentName);
     }
 
     public String displayUpdatePno (String currentPno) {
-        String pno = currentPno;
+        return displayUpdateField("personal number", currentPno);
+    }
 
-        if (displayYesAndNoQuestion("Change personal number (" + currentPno + ")?")) {
+    private String displayUpdateField (String field, String currentValue) {
+        String value = currentValue;
+
+        if (displayYesAndNoQuestion("Change " + field +  " (" + value + ")?")) {
             output("Change to: ");
-            pno = input.next();
+            value = input.next();
         }
 
-        return pno;
+        return value;
     }
 
     @Override
