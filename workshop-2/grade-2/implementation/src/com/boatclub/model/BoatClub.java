@@ -1,16 +1,16 @@
 package com.boatclub.model;
 
-import java.util.*;
+import java.util.ArrayList;
 
 public class BoatClub {
     private ArrayList<Member> members = new ArrayList<>();
 
-    public void createMember (String name, String pno) {
+    public void addMember(String name, String pno) {
         Member newMember = new Member(name, pno, getNextId());
         members.add(newMember);
     }
 
-    public Member findMember (int id) throws Exception {
+    public Member getMember(int id) throws Exception {
         for (Member member : members) {
             if (member.getId() == id) {
                 return member;
@@ -20,7 +20,7 @@ public class BoatClub {
     }
 
     public void deleteMember (int id) throws Exception {
-        Member member = findMember(id);
+        Member member = getMember(id);
         members.remove(member);
     }
 

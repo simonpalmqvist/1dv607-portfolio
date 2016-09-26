@@ -9,7 +9,7 @@ class BoatClubTest {
         String name = "Test";
         String pno = "440101-4545";
 
-        club.createMember(name, pno);
+        club.addMember(name, pno);
 
         // Member should be added
         assert(club.members.size() == 1);
@@ -28,7 +28,7 @@ class BoatClubTest {
         String name = "Test";
         String pno = "440101-4545";
 
-        club.createMember(name, pno);
+        club.addMember(name, pno);
         club.deleteMember(club.members.first().id);
 
         // Member should be added
@@ -41,12 +41,12 @@ class BoatClubTest {
         String name = "Test";
         String pno = "440101-4545";
 
-        club.createMember(name, pno); // id 1
-        club.createMember(name, pno); // id 2
+        club.addMember(name, pno); // id 1
+        club.addMember(name, pno); // id 2
 
         club.deleteMember(1);
 
-        club.createMember(name, pno); // id 3
+        club.addMember(name, pno); // id 3
 
         assert(club.members.last().id == 3);
     }

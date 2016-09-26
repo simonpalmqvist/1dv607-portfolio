@@ -1,9 +1,12 @@
 package com.boatclub.model;
 
+import java.util.ArrayList;
+
 public class Member {
     private String name;
     private String pno;
     private int id;
+    private ArrayList<Boat> boats = new ArrayList<>();
 
     Member(String name, String pno, int id) {
         this.name = name;
@@ -29,6 +32,20 @@ public class Member {
 
     public int getId () {
         return id;
+    }
+
+    public Boat getBoat (int index) {
+        return boats.get(index);
+    }
+
+    public void addBoat (Boat.BoatType type, float length) {
+        Boat newBoat = new Boat(type, length);
+        boats.add(newBoat);
+    }
+
+    public void deleteBoat (int index) {
+        Boat boatToRemove = boats.get(index);
+        boats.remove(boatToRemove);
     }
 }
 
