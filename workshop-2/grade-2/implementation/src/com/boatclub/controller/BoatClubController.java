@@ -45,10 +45,14 @@ public class BoatClubController {
     }
 
     private void showCreateMember() {
-        String name = view.getInputName();
-        String pno = view.getInputPno();
-        model.addMember(name, pno);
-        view.displayAddedUser();
+        try {
+            String name = view.getInputName();
+            String pno = view.getInputPno();
+            model.addMember(name, pno);
+            view.displayAddedUser();
+        } catch (Exception e) {
+            view.displayUserNotFound();
+        }
     }
 
     private void showMember () {

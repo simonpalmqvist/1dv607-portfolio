@@ -2,7 +2,7 @@ package com.boatclub.model;
 
 import java.util.ArrayList;
 
-public class Member {
+public class Member extends PersistenceModel {
     private String name;
     private String pno;
     private int id;
