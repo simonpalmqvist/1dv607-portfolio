@@ -1,49 +1,78 @@
 package com.boatclub.view;
 
+import com.boatclub.controller.UserAction;
+
+import java.util.HashMap;
 import java.util.Scanner;
 
-abstract class ConsoleUI {
 
-    protected Scanner input = new Scanner(System.in);
+public class ConsoleUI {
 
+    private Scanner input = new Scanner(System.in);
+    private HashMap<UserAction, String> menuOptions = new HashMap<>();
 
-    protected void output (String toBeDisplayed) {
-        System.out.print(toBeDisplayed);
+    public ConsoleUI () {
+
+        // Add menu options to be displayed
+        menuOptions.put(UserAction.CreateMember, "Create a member");
+        menuOptions.put(UserAction.ViewMember, "View a member");
+        menuOptions.put(UserAction.UpdateMember, "Update a member");
+        menuOptions.put(UserAction.DeleteMember, "Delete a member");
+        menuOptions.put(UserAction.Exit, "Exit");
     }
 
-    protected void outputLine (String toBeDisplayed) {
-        System.out.println(toBeDisplayed);
+    public void displayWelcomeMessage () {
+        System.out.println("Welcome to the Boat Club");
     }
 
-    protected void outputEmptyLine () {
+    public void displayExitMessage () {
+        System.out.println("Bye Bye");
+    }
+
+    public void displayMenu (UserAction[] availableActions) {
+        System.out.println();
+        for (int i = 0 ; i < availableActions.length; i++) {
+            displayMenuOption(i, availableActions[i]);
+        }
         System.out.println();
     }
 
-    protected boolean displayYesAndNoQuestion (String question) {
-        boolean acceptedInputValue = false;
-        boolean result = false;
-
-        while (!acceptedInputValue) {
-            output(question + " [Y/N]");
-            String answer = input.next().toLowerCase();
-
-            if (answer.equals("y") || answer.equals("n")) {
-                result = answer.equals("y");
-                acceptedInputValue = true;
-            }
-        }
-
-        return result;
+    public void displayAddedMember () {
+        System.out.println("New member added");
     }
 
-    public Enum getUserRequest (Enum[] availableActions) {
+    public void displayMember (String name, String pno, int id) {
+        System.out.println("––––––––––––––––––––––––––");
+        System.out.println("Name: " + name);
+        System.out.println("Personal number: " + pno);
+        System.out.println("ID: " + id);
+        System.out.println("--------------------------");
+    }
+
+    public String displayUpdateName (String currentName) {
+        return displayUpdateField("name", currentName);
+    }
+
+    public String displayUpdatePno (String currentPno) {
+        return displayUpdateField("personal number", currentPno);
+    }
+
+    public void displayMemberDeleted () {
+        System.out.println("Deleted member");
+    }
+
+    public void displayMemberNotFound () {
+        System.out.println("User not found");
+    }
+
+    public UserAction getUserRequest (UserAction[] availableActions) {
         boolean acceptedInputValue = false;
-        int choice = 0;
+        int choice = -1;
 
-        displayMenu(availableActions);
-
+        // Ask for users choice until they respond with an index that exists in available actions
         while (!acceptedInputValue) {
-            System.out.print("Action: ");
+            System.out.print("Choice: ");
+
             if (input.hasNextInt()) {
                 choice = input.nextInt();
                 acceptedInputValue = choice >= 0 && choice < availableActions.length;
@@ -56,22 +85,55 @@ abstract class ConsoleUI {
         return availableActions[choice];
     }
 
-    private void displayMenu(Enum[] availableActions) {
-        System.out.println();
-        for (int i = 0 ; i < availableActions.length; i++) {
-            displayMenuOption(i, availableActions[i]);
-        }
-        System.out.println();
+    public int getInputMemberId () {
+        System.out.print("Members ID: ");
+        return input.nextInt();
     }
 
-    private void displayMenuOption (int position, Enum action) {
-        String title = actionToMenuTitle(action);
+    public String getInputMemberName () {
+        System.out.print("New members name: ");
+        return input.next();
+    }
 
-        if (!title.isEmpty()) {
-            title = position + ". " + title;
+    public String getInputMemberPno () {
+        System.out.print("New members Personal Number: ");
+        return input.next();
+    }
+
+
+
+    private void displayMenuOption (int position, UserAction action) {
+        if (menuOptions.containsKey(action)) {
+            String title = position + ". " + menuOptions.get(action);
             System.out.println(title);
         }
     }
 
-    protected abstract String actionToMenuTitle (Enum action);
+    private String displayUpdateField (String field, String currentValue) {
+        String value = currentValue;
+
+        if (displayYesAndNoQuestion("Change " + field +  " (" + value + ")?")) {
+            System.out.print("Change to: ");
+            value = input.next();
+        }
+
+        return value;
+    }
+
+    private boolean displayYesAndNoQuestion (String question) {
+        boolean acceptedInputValue = false;
+        boolean result = false;
+
+        while (!acceptedInputValue) {
+            System.out.print(question + " [Y/N]");
+            String answer = input.next().toLowerCase();
+
+            if (answer.equals("y") || answer.equals("n")) {
+                result = answer.equals("y");
+                acceptedInputValue = true;
+            }
+        }
+
+        return result;
+    }
 }
