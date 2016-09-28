@@ -3,14 +3,14 @@ package com.boatclub.controller;
 import com.boatclub.model.Boat;
 import com.boatclub.model.BoatClub;
 import com.boatclub.model.Member;
-import com.boatclub.view.ConsoleUI;
+import com.boatclub.view.View;
 
 public class Router {
 
-    private ConsoleUI view;
+    private View view;
     private BoatClub model;
 
-    public Router (BoatClub model, ConsoleUI view) {
+    public Router (BoatClub model, View view) {
         this.model = model;
         this.view = view;
     }
@@ -126,11 +126,11 @@ public class Router {
         Member member = getMember();
         Boat boat = getBoat(member);
 
-        // Boat.Type newBoatType = view.displayUpdateName(boat.getType());
-        // float length = view.displayUpdatePno(boat.getLength());
+        Boat.Type boatType = view.displayUpdateType(boat.getType());
+        float length = view.displayUpdateLength(boat.getLength());
 
-        // boat.setType(type);
-        // boat.setLength(length);
+        boat.setType(boatType);
+        boat.setLength(length);
     }
 
     private void showDeleteBoat () throws Exception {

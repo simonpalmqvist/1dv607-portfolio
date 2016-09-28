@@ -26,4 +26,12 @@ public class Boat implements Serializable {
     public float getLength() {
         return length;
     }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public void setLength(float length) {
+        this.length = length;
+    }
 }
