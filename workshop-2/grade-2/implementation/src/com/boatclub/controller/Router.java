@@ -10,15 +10,6 @@ public class Router {
     private ConsoleUI view;
     private BoatClub model;
 
-    private UserAction[] availableActions = new UserAction[] {
-        UserAction.AddMember,
-        UserAction.ViewMember,
-        UserAction.UpdateMember,
-        UserAction.DeleteMember,
-        UserAction.AddBoat,
-        UserAction.Exit
-    };
-
     public Router (BoatClub model, ConsoleUI view) {
         this.model = model;
         this.view = view;
@@ -26,6 +17,7 @@ public class Router {
 
     public void start () throws Exception {
         boolean quit = false;
+        UserAction[] availableActions = UserAction.values();
 
         view.displayWelcomeMessage();
 
@@ -70,6 +62,12 @@ public class Router {
                 break;
             case AddBoat:
                 showAddBoat();
+                break;
+            case UpdateBoat:
+                showUpdateBoat();
+                break;
+            case DeleteBoat:
+                showDeleteBoat();
                 break;
             case Exit:
                 quitApplication = true;
@@ -116,15 +114,42 @@ public class Router {
 
     private void showAddBoat () throws Exception {
         Member member = getMember();
+        Boat.Type type = view.getInputBoatType();
         float length = view.getInputBoatLength();
 
-        member.addBoat(Boat.Type.Motorsailer, length);
+        member.addBoat(type, length);
 
         view.displayAddedBoat();
+    }
+
+    private void showUpdateBoat () throws Exception {
+        Member member = getMember();
+        Boat boat = getBoat(member);
+
+        // Boat.Type newBoatType = view.displayUpdateName(boat.getType());
+        // float length = view.displayUpdatePno(boat.getLength());
+
+        // boat.setType(type);
+        // boat.setLength(length);
+    }
+
+    private void showDeleteBoat () throws Exception {
+        Member member = getMember();
+
+        int index = view.getInputBoatIndex();
+
+        member.deleteBoat(index);
+
+        view.displayBoatDeleted();
     }
 
     private Member getMember () throws Exception {
         int id = view.getInputMemberId();
         return model.getMember(id);
+    }
+
+    private Boat getBoat (Member member) throws Exception {
+        int index = view.getInputMemberId();
+        return member.getBoat(index);
     }
 }
