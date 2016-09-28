@@ -1,8 +1,9 @@
 package com.boatclub.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Member extends PersistenceModel {
+public class Member implements Serializable {
     private String name;
     private String pno;
     private int id;
@@ -38,7 +39,7 @@ public class Member extends PersistenceModel {
         return boats.get(index);
     }
 
-    public void addBoat (Boat.BoatType type, float length) {
+    public void addBoat (Boat.Type type, float length) {
         Boat newBoat = new Boat(type, length);
         boats.add(newBoat);
     }

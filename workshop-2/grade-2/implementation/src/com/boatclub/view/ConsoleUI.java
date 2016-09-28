@@ -14,10 +14,11 @@ public class ConsoleUI {
     public ConsoleUI () {
 
         // Add menu options to be displayed
-        menuOptions.put(UserAction.CreateMember, "Create a member");
+        menuOptions.put(UserAction.AddMember, "Create a member");
         menuOptions.put(UserAction.ViewMember, "View a member");
         menuOptions.put(UserAction.UpdateMember, "Update a member");
         menuOptions.put(UserAction.DeleteMember, "Delete a member");
+        menuOptions.put(UserAction.AddBoat, "Add members boat");
         menuOptions.put(UserAction.Exit, "Exit");
     }
 
@@ -61,6 +62,10 @@ public class ConsoleUI {
         System.out.println("Deleted member");
     }
 
+    public void displayAddedBoat () {
+        System.out.println("New boat added");
+    }
+
     public void displayMemberNotFound () {
         System.out.println("User not found");
     }
@@ -100,7 +105,15 @@ public class ConsoleUI {
         return input.next();
     }
 
+    public int getInputBoatType () {
+        System.out.print("New boats type: ");
+        return input.nextInt();
+    }
 
+    public float getInputBoatLength () {
+        System.out.print("New boats length: ");
+        return input.nextFloat();
+    }
 
     private void displayMenuOption (int position, UserAction action) {
         if (menuOptions.containsKey(action)) {

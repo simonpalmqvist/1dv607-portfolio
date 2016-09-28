@@ -1,4 +1,4 @@
-package com.boatclub.persistence;
+package com.boatclub.data;
 
 import java.io.*;
 
@@ -6,7 +6,7 @@ public class Storage {
 
     private String storageName;
 
-    public Storage (String storageName) {
+    public Storage(String storageName) {
         this.storageName = storageName + ".dat";
     }
 

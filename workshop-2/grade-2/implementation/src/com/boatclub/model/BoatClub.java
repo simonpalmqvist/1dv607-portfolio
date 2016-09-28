@@ -1,30 +1,24 @@
 package com.boatclub.model;
 
-import com.boatclub.persistence.Storage;
+import com.boatclub.data.Storage;
 
 import java.util.ArrayList;
 
-public class BoatClub extends PersistenceModel {
+public class BoatClub {
     private ArrayList<Member> members;
     private Storage storage = new Storage("BoatClub");
 
-    public BoatClub () {
-        try {
-            if (storage.exists()) {
-                members = (ArrayList<Member>) storage.read();
-            } else {
-                members = new ArrayList<>();
-                storage.save(members);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public BoatClub () throws Exception {
+        initMemberList();
+    }
+
+    public void saveMemberData () throws Exception {
+        storage.save(members);
     }
 
     public void addMember(String name, String pno) throws Exception {
         Member newMember = new Member(name, pno, getNextId());
         members.add(newMember);
-        storage.save(members);
     }
 
     public Member getMember(int id) throws Exception {
@@ -39,6 +33,16 @@ public class BoatClub extends PersistenceModel {
     public void deleteMember (int id) throws Exception {
         Member member = getMember(id);
         members.remove(member);
+    }
+
+
+    private void initMemberList () throws Exception {
+        if (storage.exists()) {
+            members = (ArrayList<Member>) storage.read();
+        } else {
+            members = new ArrayList<>();
+            storage.save(members);
+        }
     }
 
     private int getNextId () {
