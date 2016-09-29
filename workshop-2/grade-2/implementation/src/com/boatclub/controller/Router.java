@@ -49,7 +49,10 @@ public class Router {
 
         switch (choice) {
             case ListMembers:
-                showListOfMembers();
+                showListOfMembersCompact();
+                break;
+            case ListMembersVerbose:
+                showListOfMembersVerbose();
                 break;
             case AddMember:
                 showAddMember();
@@ -82,11 +85,26 @@ public class Router {
         return quitApplication;
     }
 
-    private void showListOfMembers () {
+    private void showListOfMembersCompact() {
         view.displayMemberListHeader();
 
         for (Member member : model.getAllMembers()) {
             view.displayMemberListRow(member.getId(), member.getName(), member.getPno(), member.getNumberOfBoats());
+        }
+    }
+
+    private void showListOfMembersVerbose () {
+        for (Member member : model.getAllMembers()) {
+
+            view.displayMember(member.getName(), member.getPno(), member.getId());
+
+            showListOfMembersBoats(member.getBoats());
+        }
+    }
+
+    private void showListOfMembersBoats (Boat[] boats) {
+        for (Boat boat : boats) {
+            view.displayBoat(boat.getType(), boat.getLength());
         }
     }
 

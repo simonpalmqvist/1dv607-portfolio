@@ -43,6 +43,12 @@ public class Member implements Serializable {
         return boats.get(index);
     }
 
+    public Boat[] getBoats () {
+        Boat[] allBoats = new Boat[boats.size()];
+
+        return boats.toArray(allBoats);
+    }
+
     public void addBoat (Boat.Type type, float length) {
         Boat newBoat = new Boat(type, length);
         boats.add(newBoat);

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class ConsoleUI {
+abstract class ConsoleUI {
 
     private Scanner input = new Scanner(System.in);
 

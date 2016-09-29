@@ -2,15 +2,13 @@ package com.boatclub;
 
 import com.boatclub.controller.Router;
 import com.boatclub.model.BoatClub;
-import com.boatclub.view.ConsoleUI;
 import com.boatclub.view.View;
 
 public class Main {
 
     public static void main(String[] args) {
         try {
-            ConsoleUI ui = new ConsoleUI();
-            View view = new View(ui);
+            View view = new View();
             BoatClub boatClub = new BoatClub();
             Router router = new Router(boatClub, view);
 

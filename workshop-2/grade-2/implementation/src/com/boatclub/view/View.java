@@ -5,19 +5,17 @@ import com.boatclub.model.Boat;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
-public class View {
+public class View extends ConsoleUI {
 
-    private ConsoleUI ui;
     private HashMap<UserAction, String> menuOptions = new HashMap<>();
     private HashMap<Boat.Type, String> boatTypeOptions = new HashMap<>();
     private String memberRowFormat = "| %5s | %30s | %20s | %20s |\n";
     private Pattern pnoPattern = Pattern.compile("[0-9]{6}-[0-9]{4}");
 
-    public View (ConsoleUI ui) {
-        this.ui = ui;
-
+    public View () {
         // Add menu options to be displayed
-        menuOptions.put(UserAction.ListMembers, "List members");
+        menuOptions.put(UserAction.ListMembers, "List members (compact)");
+        menuOptions.put(UserAction.ListMembersVerbose, "List members (verbose)");
         menuOptions.put(UserAction.AddMember, "Create a member");
         menuOptions.put(UserAction.ViewMember, "View a member");
         menuOptions.put(UserAction.UpdateMember, "Update a member");
@@ -35,111 +33,117 @@ public class View {
     }
 
     public void displayWelcomeMessage () {
-        ui.showText("Welcome to the Boat Club");
+        showText("Welcome to the Boat Club");
     }
 
     public void displayExitMessage () {
-        ui.showText("Bye Bye");
+        showText("Bye Bye");
     }
 
     public void displayMenu (UserAction[] availableActions) {
-        ui.displayOptions(availableActions, menuOptions);
+        displayOptions(availableActions, menuOptions);
     }
 
     public void displayMemberListHeader () {
-        ui.showRow(memberRowFormat, "ID", "Name", "Personal number", "Number of boats");
+        showRow(memberRowFormat, "ID", "Name", "Personal number", "Number of boats");
     }
 
     public void displayMemberListRow (int id, String name, String pno, int numberOfBoats) {
-        ui.showRow(memberRowFormat, id, name, pno, numberOfBoats);
+        showRow(memberRowFormat, id, name, pno, numberOfBoats);
     }
 
     public void displayAddedMember () {
-        ui.showText("New member added");
+        showText("New member added");
     }
 
     public void displayMember (String name, String pno, int id) {
-        ui.showText("––––––––––––––––––––––––––");
-        ui.showText("Name: " + name);
-        ui.showText("Personal number: " + pno);
-        ui.showText("ID: " + id);
-        ui.showText("--------------------------");
+        showText("––––––––––––––––––––––––––");
+        showText("Name: " + name);
+        showText("Personal number: " + pno);
+        showText("ID: " + id);
+        showText("--------------------------");
     }
 
     public String displayUpdateName (String currentName) {
-        if (ui.displayYesAndNoQuestion("Change name (" + currentName + ")?")) {
-            return ui.getUserInput("Change to");
+        if (displayYesAndNoQuestion("Change name (" + currentName + ")?")) {
+            return getUserInput("Change to");
         }
         return currentName;
     }
 
     public String displayUpdatePno (String currentPno) {
-        if (ui.displayYesAndNoQuestion("Change personal number (" + currentPno+ ")?")) {
-            return ui.getUserInput("Change to");
+        if (displayYesAndNoQuestion("Change personal number (" + currentPno+ ")?")) {
+            return getUserInput("Change to");
         }
         return currentPno;
     }
 
     public void displayMemberDeleted () {
-        ui.showText("Deleted member");
+        showText("Deleted member");
     }
 
     public void displayAddedBoat () {
-        ui.showText("New boat added");
+        showText("New boat added");
+    }
+
+    public void displayBoat (Boat.Type type, float length) {
+        showText("Type: " + boatTypeOptions.get(type));
+        showText("Length: " + length);
+        showText("--------------------------");
     }
 
     public Boat.Type displayUpdateType (Boat.Type currentType) {
-        if (ui.displayYesAndNoQuestion("Change type (" + boatTypeOptions.get(currentType) + ")?")) {
+        if (displayYesAndNoQuestion("Change type (" + boatTypeOptions.get(currentType) + ")?")) {
             return getInputBoatType();
         }
         return currentType;
     }
 
     public float displayUpdateLength (float currentLength) {
-        if (ui.displayYesAndNoQuestion("Change length (" + currentLength + ")?")) {
-            return ui.getUserFloatInput("Change to:");
+        if (displayYesAndNoQuestion("Change length (" + currentLength + ")?")) {
+            return getUserFloatInput("Change to:");
         }
         return currentLength;
     }
 
     public void displayBoatDeleted () {
-        ui.showText("Deleted boat");
+        showText("Deleted boat");
     }
 
     public void displayMemberNotFound () {
-        ui.showText("User not found");
+        showText("User not found");
     }
 
     public UserAction getUserRequest (UserAction[] availableActions) {
-        return ui.getUserChoice(availableActions);
+        return getUserChoice(availableActions);
     }
 
     public int getInputMemberId () {
-        return ui.getUserIntInput("Members ID");
+        return getUserIntInput("Members ID");
     }
 
     public String getInputMemberName () {
-        return ui.getUserInput("New members name");
+        return getUserInput("New members name");
     }
 
     public String getInputMemberPno () {
-        return ui.getUserPatternInput("New members Personal Number [XXXXXX-XXXX]", pnoPattern);
+        return getUserPatternInput("New members Personal Number [XXXXXX-XXXX]", pnoPattern);
     }
 
     public int getInputBoatIndex () {
-        return ui.getUserIntInput("Boats index");
+        return getUserIntInput("Boats index");
     }
 
     public Boat.Type getInputBoatType () {
         Boat.Type[] availableBoatTypes = Boat.Type.values();
 
-        ui.displayOptions(availableBoatTypes, boatTypeOptions);
+        displayOptions(availableBoatTypes, boatTypeOptions);
 
-        return ui.getUserChoice(availableBoatTypes);
+        return getUserChoice(availableBoatTypes);
     }
 
     public float getInputBoatLength () {
-        return ui.getUserFloatInput("New boats length");
+        return getUserFloatInput("New boats length");
     }
 
 }
