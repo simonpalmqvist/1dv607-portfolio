@@ -48,6 +48,9 @@ public class Router {
         boolean quitApplication = false;
 
         switch (choice) {
+            case ListMembers:
+                showListOfMembers();
+                break;
             case AddMember:
                 showAddMember();
                 break;
@@ -79,7 +82,15 @@ public class Router {
         return quitApplication;
     }
 
-    private void showAddMember() throws Exception {
+    private void showListOfMembers () {
+        view.displayMemberListHeader();
+
+        for (Member member : model.getAllMembers()) {
+            view.displayMemberListRow(member.getId(), member.getName(), member.getPno(), member.getNumberOfBoats());
+        }
+    }
+
+    private void showAddMember () throws Exception {
         String name = view.getInputMemberName();
         String pno = view.getInputMemberPno();
 

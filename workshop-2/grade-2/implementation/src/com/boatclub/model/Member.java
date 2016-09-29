@@ -35,6 +35,10 @@ public class Member implements Serializable {
         return id;
     }
 
+    public int getNumberOfBoats () {
+        return boats.size();
+    }
+
     public Boat getBoat (int index) {
         return boats.get(index);
     }

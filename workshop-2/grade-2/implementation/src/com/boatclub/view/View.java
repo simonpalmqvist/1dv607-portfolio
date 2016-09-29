@@ -3,17 +3,21 @@ package com.boatclub.view;
 import com.boatclub.controller.UserAction;
 import com.boatclub.model.Boat;
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
 public class View {
 
     private ConsoleUI ui;
     private HashMap<UserAction, String> menuOptions = new HashMap<>();
     private HashMap<Boat.Type, String> boatTypeOptions = new HashMap<>();
+    private String memberRowFormat = "| %5s | %30s | %20s | %20s |\n";
+    private Pattern pnoPattern = Pattern.compile("[0-9]{6}-[0-9]{4}");
 
     public View (ConsoleUI ui) {
         this.ui = ui;
 
         // Add menu options to be displayed
+        menuOptions.put(UserAction.ListMembers, "List members");
         menuOptions.put(UserAction.AddMember, "Create a member");
         menuOptions.put(UserAction.ViewMember, "View a member");
         menuOptions.put(UserAction.UpdateMember, "Update a member");
@@ -40,6 +44,14 @@ public class View {
 
     public void displayMenu (UserAction[] availableActions) {
         ui.displayOptions(availableActions, menuOptions);
+    }
+
+    public void displayMemberListHeader () {
+        ui.showRow(memberRowFormat, "ID", "Name", "Personal number", "Number of boats");
+    }
+
+    public void displayMemberListRow (int id, String name, String pno, int numberOfBoats) {
+        ui.showRow(memberRowFormat, id, name, pno, numberOfBoats);
     }
 
     public void displayAddedMember () {
@@ -111,7 +123,7 @@ public class View {
     }
 
     public String getInputMemberPno () {
-        return ui.getUserInput("New members Personal Number");
+        return ui.getUserPatternInput("New members Personal Number [XXXXXX-XXXX]", pnoPattern);
     }
 
     public int getInputBoatIndex () {

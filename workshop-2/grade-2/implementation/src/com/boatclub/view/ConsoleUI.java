@@ -2,6 +2,7 @@ package com.boatclub.view;
 
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class ConsoleUI {
 
@@ -11,26 +12,42 @@ public class ConsoleUI {
         System.out.println(text);
     }
 
+    void showRow (String format, Object ...args) {
+        System.out.format(format, args);
+    }
+
     int getUserIntInput (String title) {
-        System.out.print(title);
+        printInputTitle(title);
         while (!input.hasNextInt()) {
             input.next();
+            printInputTitle("Wrong format, try again");
         }
 
         return input.nextInt();
     }
 
     float getUserFloatInput (String title) {
-        System.out.print(title);
+        printInputTitle(title);
         while (!input.hasNextFloat()) {
             input.next();
+            printInputTitle("Wrong format, try again");
         }
 
         return input.nextFloat();
     }
 
+    String getUserPatternInput (String title, Pattern pattern) {
+        printInputTitle(title);
+        while (!input.hasNext(pattern)) {
+            input.next();
+            printInputTitle("Wrong format, try again");
+        }
+
+        return input.next();
+    }
+
     String getUserInput (String title) {
-        System.out.print(title);
+        printInputTitle(title);
         return input.next();
     }
 
@@ -39,7 +56,7 @@ public class ConsoleUI {
 
         // Ask for users choice until they respond with an index that exists in available options
         while (!isValidChoice(choice, availableOptions.length)) {
-            System.out.print("Choice: ");
+            printInputTitle("Choice");
 
             if (input.hasNextInt()) {
                 choice = input.nextInt();
@@ -82,11 +99,15 @@ public class ConsoleUI {
         return result;
     }
 
-    private int choiceToIndex(int choice) {
+    private void printInputTitle (String title) {
+        System.out.print(title + ": ");
+    }
+
+    private int choiceToIndex (int choice) {
         return choice - 1;
     }
 
-    private int indexToChoice(int index) {
+    private int indexToChoice (int index) {
         return index + 1;
     }
 

@@ -30,6 +30,12 @@ public class BoatClub {
         throw new Exception("Member not found");
     }
 
+    public Member[] getAllMembers () {
+        Member[] allMembers = new Member[members.size()];
+
+        return members.toArray(allMembers);
+    }
+
     public void deleteMember (int id) throws Exception {
         Member member = getMember(id);
         members.remove(member);
