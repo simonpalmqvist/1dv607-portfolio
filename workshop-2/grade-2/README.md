@@ -26,9 +26,38 @@ View-->-Router: returns pno
 
 Router->+BoatClub: addMember(name, pno)
 BoatClub->*Member: member := new
-BoatClub->ArrayList<Member>: add(member)
+BoatClub->-BoatClub: add(member)
 
 Router->View: showAddedMember()
 ```
 
 ### List members
+```
+title Create Member Sequence
+
+Router->+Router: showListOfMembersCompact()
+
+Router->+View: displayMembersListHeader()
+
+View->-View: showRow()
+
+Router->+BoatClub: getAllMembers()
+BoatClub-->-Router: returns members 
+
+loop members
+    Router->+Member: getId()
+    Member-->-Router: returns id
+    
+    Router->+Member: getName()
+    Member-->-Router: returns name
+    
+    Router->+Member: getPno()
+    Member-->-Router: returns pno
+    
+    Router->+Member: getNumberOfBoats()
+    Member-->-Router: returns numberOfBoats
+    
+    Router->+View: displayMemberListRow(id, name, pno, numberOfBoats)
+    View->-View: showRow()
+end
+```
