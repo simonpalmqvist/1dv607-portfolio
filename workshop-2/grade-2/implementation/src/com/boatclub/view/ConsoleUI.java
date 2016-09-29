@@ -35,23 +35,21 @@ public class ConsoleUI {
     }
 
     <T> T getUserChoice (T[] availableOptions) {
-        boolean acceptedInputValue = false;
-        int choice = -1;
+        int choice = 0;
 
         // Ask for users choice until they respond with an index that exists in available options
-        while (!acceptedInputValue) {
+        while (!isValidChoice(choice, availableOptions.length)) {
             System.out.print("Choice: ");
 
             if (input.hasNextInt()) {
                 choice = input.nextInt();
-                acceptedInputValue = choice >= 0 && choice < availableOptions.length;
             } else {
                 input.next();
             }
         }
         System.out.println();
 
-        return availableOptions[choice];
+        return availableOptions[choiceToIndex(choice)];
     }
 
     <T> void displayOptions (T[] availableOptions, HashMap<T, String> optionTitles) {
@@ -60,21 +58,11 @@ public class ConsoleUI {
             T option = availableOptions[i];
 
             if (optionTitles.containsKey(option)) {
-                String title = i + ". " + optionTitles.get(option);
+                String title = indexToChoice(i) + ". " + optionTitles.get(option);
                 System.out.println(title);
             }
         }
         System.out.println();
-    }
-
-    String displayUpdateField (String field, String currentValue) {
-        String value = currentValue;
-
-        if (displayYesAndNoQuestion("Change " + field +  " (" + value + ")?")) {
-            System.out.print("Change to: ");
-            value = input.next();
-        }
-        return value;
     }
 
     boolean displayYesAndNoQuestion (String question) {
@@ -92,5 +80,17 @@ public class ConsoleUI {
         }
 
         return result;
+    }
+
+    private int choiceToIndex(int choice) {
+        return choice - 1;
+    }
+
+    private int indexToChoice(int index) {
+        return index + 1;
+    }
+
+    private boolean isValidChoice (int choice, int numberOfChoices) {
+        return choice > 0 && choice <= numberOfChoices;
     }
 }
