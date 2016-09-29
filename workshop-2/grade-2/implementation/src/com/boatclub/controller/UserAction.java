@@ -1,6 +1,7 @@
 package com.boatclub.controller;
 
 public enum UserAction {
+    ListMembers,
     AddMember,
     ViewMember,
     UpdateMember,
