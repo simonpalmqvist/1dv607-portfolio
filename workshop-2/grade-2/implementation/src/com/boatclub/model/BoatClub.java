@@ -1,6 +1,7 @@
 package com.boatclub.model;
 
 import com.boatclub.data.Storage;
+import com.boatclub.exception.MemberNotFoundException;
 
 import java.util.ArrayList;
 
@@ -16,18 +17,18 @@ public class BoatClub {
         storage.save(members);
     }
 
-    public void addMember(String name, String pno) throws Exception {
+    public void addMember(String name, String pno) {
         Member newMember = new Member(name, pno, getNextId());
         members.add(newMember);
     }
 
-    public Member getMember(int id) throws Exception {
+    public Member getMember(int id) throws MemberNotFoundException {
         for (Member member : members) {
             if (member.getId() == id) {
                 return member;
             }
         }
-        throw new Exception("Member not found");
+        throw new MemberNotFoundException();
     }
 
     public Member[] getAllMembers () {
@@ -36,7 +37,7 @@ public class BoatClub {
         return members.toArray(allMembers);
     }
 
-    public void deleteMember (int id) throws Exception {
+    public void deleteMember (int id) throws MemberNotFoundException {
         Member member = getMember(id);
         members.remove(member);
     }

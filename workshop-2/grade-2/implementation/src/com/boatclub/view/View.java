@@ -114,6 +114,10 @@ public class View extends ConsoleUI {
         showText("User not found");
     }
 
+    public void displayBoatNotFound() {
+        showText("Boat not found");
+    }
+
     public UserAction getUserRequest (UserAction[] availableActions) {
         return getUserChoice(availableActions);
     }

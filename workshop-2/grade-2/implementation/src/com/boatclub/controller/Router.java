@@ -1,5 +1,7 @@
 package com.boatclub.controller;
 
+import com.boatclub.exception.BoatNotFoundException;
+import com.boatclub.exception.MemberNotFoundException;
 import com.boatclub.model.Boat;
 import com.boatclub.model.BoatClub;
 import com.boatclub.model.Member;
@@ -38,13 +40,16 @@ public class Router {
     private boolean tryHandleAction (UserAction choice) {
         try {
             return handleAction(choice);
-        } catch (Exception error) {
+        } catch (MemberNotFoundException e) {
             view.displayMemberNotFound();
-            return false;
+        } catch (BoatNotFoundException e) {
+            view.displayBoatNotFound();
         }
+
+        return false;
     }
 
-    private boolean handleAction (UserAction choice) throws Exception {
+    private boolean handleAction (UserAction choice) throws MemberNotFoundException, BoatNotFoundException {
         boolean quitApplication = false;
 
         switch (choice) {
@@ -78,8 +83,6 @@ public class Router {
             case Exit:
                 quitApplication = true;
                 break;
-            default:
-                throw new Exception("This choice can not be performed");
         }
 
         return quitApplication;
@@ -108,7 +111,7 @@ public class Router {
         }
     }
 
-    private void showAddMember () throws Exception {
+    private void showAddMember () {
         String name = view.getInputMemberName();
         String pno = view.getInputMemberPno();
 
@@ -117,13 +120,13 @@ public class Router {
         view.displayAddedMember();
     }
 
-    private void showMember () throws Exception {
+    private void showMember () throws MemberNotFoundException {
         Member member = getMember();
 
         view.displayMember(member.getName(), member.getPno(), member.getId());
     }
 
-    private void updateMember () throws Exception {
+    private void updateMember () throws MemberNotFoundException {
         Member member = getMember();
 
         String newName = view.displayUpdateName(member.getName());
@@ -133,7 +136,7 @@ public class Router {
         member.setPno(newPno);
     }
 
-    private void showDeleteMember () throws Exception {
+    private void showDeleteMember () throws MemberNotFoundException {
         int id = view.getInputMemberId();
 
         model.deleteMember(id);
@@ -141,7 +144,7 @@ public class Router {
         view.displayMemberDeleted();
     }
 
-    private void showAddBoat () throws Exception {
+    private void showAddBoat () throws MemberNotFoundException {
         Member member = getMember();
         Boat.Type type = view.getInputBoatType();
         float length = view.getInputBoatLength();
@@ -151,7 +154,7 @@ public class Router {
         view.displayAddedBoat();
     }
 
-    private void showUpdateBoat () throws Exception {
+    private void showUpdateBoat () throws MemberNotFoundException, BoatNotFoundException {
         Member member = getMember();
         Boat boat = getBoat(member);
 
@@ -162,7 +165,7 @@ public class Router {
         boat.setLength(length);
     }
 
-    private void showDeleteBoat () throws Exception {
+    private void showDeleteBoat () throws MemberNotFoundException, BoatNotFoundException {
         Member member = getMember();
 
         int index = view.getInputBoatIndex();
@@ -172,13 +175,13 @@ public class Router {
         view.displayBoatDeleted();
     }
 
-    private Member getMember () throws Exception {
+    private Member getMember () throws MemberNotFoundException {
         int id = view.getInputMemberId();
         return model.getMember(id);
     }
 
-    private Boat getBoat (Member member) throws Exception {
-        int index = view.getInputMemberId();
+    private Boat getBoat (Member member) throws BoatNotFoundException {
+        int index = view.getInputBoatIndex();
         return member.getBoat(index);
     }
 }

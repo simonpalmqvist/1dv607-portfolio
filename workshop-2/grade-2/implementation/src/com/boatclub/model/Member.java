@@ -1,5 +1,7 @@
 package com.boatclub.model;
 
+import com.boatclub.exception.BoatNotFoundException;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -39,7 +41,9 @@ public class Member implements Serializable {
         return boats.size();
     }
 
-    public Boat getBoat (int index) {
+    public Boat getBoat (int index) throws BoatNotFoundException {
+        boatExists(index);
+
         return boats.get(index);
     }
 
@@ -54,9 +58,16 @@ public class Member implements Serializable {
         boats.add(newBoat);
     }
 
-    public void deleteBoat (int index) {
-        Boat boatToRemove = boats.get(index);
-        boats.remove(boatToRemove);
+    public void deleteBoat (int index) throws BoatNotFoundException {
+        boatExists(index);
+
+        boats.remove(index);
+    }
+
+    private void boatExists (int index) throws BoatNotFoundException {
+        if (boats.size() <= index) {
+            throw new BoatNotFoundException();
+        }
     }
 }
 
