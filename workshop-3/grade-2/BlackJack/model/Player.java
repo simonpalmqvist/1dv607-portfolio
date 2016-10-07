@@ -67,7 +67,11 @@ public class Player {
       return false;
   }
 
-  private int sumCardValues() {
+    public int getMaxScore() {
+        return g_maxScore;
+    }
+
+    private int sumCardValues() {
       // the number of scores is dependant on the number of scorable values
       // as it seems there is no way to do this check at compile time in java ?!
       // cardScores[13] = {...};
