@@ -4,9 +4,6 @@ public class SwedishView implements IView
     {
         public void DisplayWelcomeMessage()
         {
-         
-            for(int i = 0; i < 50; i++) {System.out.print("\n");};
-
             System.out.println("Hej Black Jack Världen");
             System.out.println("----------------------");
             System.out.println("Skriv 'p' för att Spela, 'k' för nytt kort, 's' för att stanna 'a' för att avsluta\n");
@@ -76,6 +73,7 @@ public class SwedishView implements IView
             {
                 System.out.println("Du vann!");
             }
+            System.out.println();
         }
 
         private void DisplayHand(String a_name, Iterable<BlackJack.model.Card> a_hand, int a_score)
@@ -86,6 +84,10 @@ public class SwedishView implements IView
                 DisplayCard(c);
             }
             System.out.println("Poäng: " + a_score);
-            System.out.println("");
+            System.out.println();
+        }
+
+        public void DisplayNewView() {
+            for(int i = 0; i < 50; i++) {System.out.print("\n");}
         }
     }
