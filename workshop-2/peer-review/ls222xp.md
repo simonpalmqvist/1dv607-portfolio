@@ -1,7 +1,7 @@
 # Peer review
 
 ## Getting the application running
-I couldn't get the application running since I'm running OSX and couldn't get a hold of a computer with Windows on.
+I sadly couldn't get the application running since I'm using OSX and couldn't get a hold of a computer or have access to a virtual machine running Windows.
 
 ## Diagrams
 The diagram in overall is understandable but have some issues that could improve the readability.
