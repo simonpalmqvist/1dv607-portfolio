@@ -32,7 +32,7 @@ Another thing that can be improved is letting the Member class add, delete and u
 The coupling of the Controller part of the application are maybe not that low as it can be because it has a lot of controllers. It therefor might be worth checking if maybe the BoatAdder, BoatDeleter, BoatUpdater might be one class instead of three since they have a lot in common. This is also true for the member controllers and is explained by Larman as the pattern Low coupling [3, p427-428].
 
 ## As a developer would the diagrams help you and why/why not?
-As explained above the class diagram takes some time to grasp because of the misuse of arrows and the amount of controller classes. However I would still argue that it's understandable.
+As explained above the class diagram takes some time to grasp because of the misuse of arrows and the amount of controller classes. However I would still argue that they would be helpful because it gives an overview. When it comes to the sequence diagrams I think they could be to help when trying to understand the different scenarios or the flow through the application.
 
 ## What are the strong points of the design/implementation, what do you think is really good and why?
 As described under the implementation section the architecture is well done and has a clear separation between view and model.
