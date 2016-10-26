@@ -7,31 +7,43 @@ import com.boatclub.model.BoatClub;
 import com.boatclub.model.Member;
 import com.boatclub.view.View;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class Router {
 
     private View view;
     private BoatClub model;
+    private ArrayList<UserAction> availableActions;
+    private boolean isAuthenticated = false;
 
     public Router (BoatClub model, View view) {
         this.model = model;
         this.view = view;
+
+        setAvailableActions();
     }
 
     public void start () throws Exception {
         boolean quit = false;
-        UserAction[] availableActions = UserAction.values();
 
         view.displayWelcomeMessage();
 
         // Run until user wants to quit application
         while (!quit) {
-            view.displayMenu(availableActions);
-            UserAction choice = view.getUserRequest(availableActions);
+            UserAction[] actions = availableActions.toArray(new UserAction[availableActions.size()]);
 
-            quit = tryHandleAction(choice);
+            view.displayMenu(actions);
+            UserAction choice = view.getUserRequest(actions);
 
-            // Store member data after each action
-            model.saveMemberData();
+            if (availableActions.contains(choice)) {
+                quit = tryHandleAction(choice);
+
+                // Store member data after each action
+                model.saveMemberData();
+            }
         }
 
         view.displayExitMessage();
@@ -52,7 +64,17 @@ public class Router {
     private boolean handleAction (UserAction choice) throws MemberNotFoundException, BoatNotFoundException {
         boolean quitApplication = false;
 
+        System.out.println(choice);
+
         switch (choice) {
+            case Login:
+                isAuthenticated = true;
+                setAvailableActions();
+                break;
+            case Logout:
+                isAuthenticated = false;
+                setAvailableActions();
+                break;
             case ListMembers:
                 showListOfMembersCompact();
                 break;
@@ -183,5 +205,28 @@ public class Router {
     private Boat getBoat (Member member) throws BoatNotFoundException {
         int index = view.getInputBoatIndex();
         return member.getBoat(index);
+    }
+
+    private void setAvailableActions () {
+        availableActions = new ArrayList<>();
+
+        availableActions.add(UserAction.ListMembers);
+        availableActions.add(UserAction.ListMembersVerbose);
+        availableActions.add(UserAction.ViewMember);
+        availableActions.add(UserAction.Exit);
+
+        if (isAuthenticated) {
+            availableActions.add(UserAction.Logout);
+            availableActions.add(UserAction.AddMember);
+            availableActions.add(UserAction.UpdateMember);
+            availableActions.add(UserAction.DeleteMember);
+            availableActions.add(UserAction.AddBoat);
+            availableActions.add(UserAction.UpdateBoat);
+            availableActions.add(UserAction.DeleteBoat);
+        } else {
+            availableActions.add(UserAction.Login);
+        }
+
+        Collections.sort(availableActions);
     }
 }

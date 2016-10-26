@@ -2,6 +2,8 @@ package com.boatclub.view;
 
 import com.boatclub.controller.UserAction;
 import com.boatclub.model.Boat;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
@@ -14,6 +16,8 @@ public class View extends ConsoleUI {
 
     public View () {
         // Add menu options to be displayed
+        menuOptions.put(UserAction.Login, "Login");
+        menuOptions.put(UserAction.Logout, "Logout");
         menuOptions.put(UserAction.ListMembers, "List members (compact)");
         menuOptions.put(UserAction.ListMembersVerbose, "List members (verbose)");
         menuOptions.put(UserAction.AddMember, "Create a member");
