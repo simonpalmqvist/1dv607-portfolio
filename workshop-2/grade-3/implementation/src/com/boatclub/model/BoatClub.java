@@ -2,12 +2,14 @@ package com.boatclub.model;
 
 import com.boatclub.data.Storage;
 import com.boatclub.exception.MemberNotFoundException;
+import com.boatclub.exception.WrongCredentialsException;
 
 import java.util.ArrayList;
 
 public class BoatClub {
     private ArrayList<Member> members;
     private Storage storage = new Storage("BoatClub");
+    private boolean isAuthenticated = false;
 
     public BoatClub () throws Exception {
         initMemberList();
@@ -42,6 +44,20 @@ public class BoatClub {
         members.remove(member);
     }
 
+    public boolean getIsAuthenticated () {
+        return isAuthenticated;
+    }
+
+    public void authenticate (String name, String password) throws WrongCredentialsException {
+        if (!(name.equals("admin") && password.equals("pass"))) {
+            throw new WrongCredentialsException();
+        }
+        isAuthenticated = true;
+    }
+
+    public void unAuthenticate () {
+        isAuthenticated = false;
+    }
 
     private void initMemberList () throws Exception {
         if (storage.exists()) {

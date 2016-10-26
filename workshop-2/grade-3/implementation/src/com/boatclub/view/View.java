@@ -48,6 +48,18 @@ public class View extends ConsoleUI {
         displayOptions(availableActions, menuOptions);
     }
 
+    public String getInputUsername () {
+        return getUserInput("Username");
+    }
+
+    public String getInputPassword () {
+        return getUserInput("Password");
+    }
+
+    public void displayWrongCredentials() {
+        showText("Wrong credentials");
+    }
+
     public void displayMemberListHeader () {
         showRow(memberRowFormat, "ID", "Name", "Personal number", "Number of boats");
     }
@@ -153,5 +165,4 @@ public class View extends ConsoleUI {
     public float getInputBoatLength () {
         return getUserFloatInput("New boats length");
     }
-
 }

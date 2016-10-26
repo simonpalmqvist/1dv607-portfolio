@@ -2,28 +2,26 @@ package com.boatclub.controller;
 
 import com.boatclub.exception.BoatNotFoundException;
 import com.boatclub.exception.MemberNotFoundException;
+import com.boatclub.exception.WrongCredentialsException;
 import com.boatclub.model.Boat;
 import com.boatclub.model.BoatClub;
 import com.boatclub.model.Member;
 import com.boatclub.view.View;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 public class Router {
 
     private View view;
     private BoatClub model;
     private ArrayList<UserAction> availableActions;
-    private boolean isAuthenticated = false;
 
     public Router (BoatClub model, View view) {
         this.model = model;
         this.view = view;
 
-        setAvailableActions();
+        updateAvailableActions();
     }
 
     public void start () throws Exception {
@@ -56,24 +54,26 @@ public class Router {
             view.displayMemberNotFound();
         } catch (BoatNotFoundException e) {
             view.displayBoatNotFound();
+        } catch (WrongCredentialsException e) {
+            view.displayWrongCredentials();
         }
 
         return false;
     }
 
-    private boolean handleAction (UserAction choice) throws MemberNotFoundException, BoatNotFoundException {
+    private boolean handleAction (UserAction choice) throws MemberNotFoundException,
+                                                            BoatNotFoundException,
+                                                            WrongCredentialsException {
         boolean quitApplication = false;
-
-        System.out.println(choice);
 
         switch (choice) {
             case Login:
-                isAuthenticated = true;
-                setAvailableActions();
+                showLogin();
+                updateAvailableActions();
                 break;
             case Logout:
-                isAuthenticated = false;
-                setAvailableActions();
+                showLogout();
+                updateAvailableActions();
                 break;
             case ListMembers:
                 showListOfMembersCompact();
@@ -110,7 +110,20 @@ public class Router {
         return quitApplication;
     }
 
-    private void showListOfMembersCompact() {
+    private void showLogin () throws WrongCredentialsException {
+        String name = view.getInputUsername();
+        String pass = view.getInputPassword();
+
+        model.authenticate(name, pass);
+        updateAvailableActions();
+    }
+
+    private void showLogout () {
+        model.unAuthenticate();
+        updateAvailableActions();
+    }
+
+    private void showListOfMembersCompact () {
         view.displayMemberListHeader();
 
         for (Member member : model.getAllMembers()) {
@@ -207,26 +220,25 @@ public class Router {
         return member.getBoat(index);
     }
 
-    private void setAvailableActions () {
+    private void updateAvailableActions() {
         availableActions = new ArrayList<>();
 
         availableActions.add(UserAction.ListMembers);
         availableActions.add(UserAction.ListMembersVerbose);
         availableActions.add(UserAction.ViewMember);
-        availableActions.add(UserAction.Exit);
 
-        if (isAuthenticated) {
-            availableActions.add(UserAction.Logout);
+        if (model.getIsAuthenticated()) {
             availableActions.add(UserAction.AddMember);
             availableActions.add(UserAction.UpdateMember);
             availableActions.add(UserAction.DeleteMember);
             availableActions.add(UserAction.AddBoat);
             availableActions.add(UserAction.UpdateBoat);
             availableActions.add(UserAction.DeleteBoat);
+            availableActions.add(UserAction.Logout);
         } else {
             availableActions.add(UserAction.Login);
         }
 
-        Collections.sort(availableActions);
+        availableActions.add(UserAction.Exit);
     }
 }
