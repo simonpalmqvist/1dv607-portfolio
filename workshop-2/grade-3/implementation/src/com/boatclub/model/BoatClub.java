@@ -3,6 +3,7 @@ package com.boatclub.model;
 import com.boatclub.data.Storage;
 import com.boatclub.exception.MemberNotFoundException;
 import com.boatclub.exception.WrongCredentialsException;
+import com.boatclub.model.filters.MemberFilter;
 
 import java.util.ArrayList;
 
@@ -33,10 +34,24 @@ public class BoatClub {
         throw new MemberNotFoundException();
     }
 
-    public Member[] getAllMembers () {
-        Member[] allMembers = new Member[members.size()];
+    public Member[] getMembers (MemberFilter filter) {
+        ArrayList<Member> filteredMembers = new ArrayList<>();
 
-        return members.toArray(allMembers);
+        for (Member member : members) {
+            if (filter.pass(member)) {
+                filteredMembers.add(member);
+            }
+        }
+
+        return memberListToArray(filteredMembers);
+    }
+
+    public Member[] getAllMembers () {
+        return memberListToArray(members);
+    }
+
+    private Member[] memberListToArray (ArrayList<Member> list) {
+        return list.toArray(new Member[list.size()]);
     }
 
     public void deleteMember (int id) throws MemberNotFoundException {

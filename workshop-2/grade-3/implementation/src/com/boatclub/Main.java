@@ -2,6 +2,7 @@ package com.boatclub;
 
 import com.boatclub.controller.Router;
 import com.boatclub.model.BoatClub;
+import com.boatclub.model.filters.MemberFilters;
 import com.boatclub.view.View;
 
 public class Main {
@@ -10,7 +11,8 @@ public class Main {
         try {
             View view = new View();
             BoatClub boatClub = new BoatClub();
-            Router router = new Router(boatClub, view);
+            MemberFilters memberFilters = new MemberFilters();
+            Router router = new Router(boatClub, view, memberFilters);
 
             router.start();
 

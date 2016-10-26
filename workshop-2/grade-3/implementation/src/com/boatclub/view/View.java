@@ -4,7 +4,6 @@ import com.boatclub.controller.MemberFilterAction;
 import com.boatclub.controller.UserAction;
 import com.boatclub.model.Boat;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 

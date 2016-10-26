@@ -6,6 +6,7 @@ import com.boatclub.exception.WrongCredentialsException;
 import com.boatclub.model.Boat;
 import com.boatclub.model.BoatClub;
 import com.boatclub.model.Member;
+import com.boatclub.model.filters.MemberFilters;
 import com.boatclub.view.View;
 
 import java.util.ArrayList;
@@ -15,11 +16,13 @@ public class Router {
 
     private View view;
     private BoatClub model;
+    private MemberFilters memberFilters;
     private ArrayList<UserAction> availableActions;
 
-    public Router (BoatClub model, View view) {
+    public Router (BoatClub model, View view, MemberFilters memberFilters) {
         this.model = model;
         this.view = view;
+        this.memberFilters = memberFilters;
 
         updateAvailableActions();
     }
@@ -152,6 +155,12 @@ public class Router {
         switch (choice) {
             case None:
                 members = model.getAllMembers();
+                break;
+            case MemberWithNameThatStartWithSi:
+                members = model.getMembers(memberFilters.memberWithNameThatStartWithSi());
+                break;
+            case MemberWithFiveBoats:
+                members = model.getMembers(memberFilters.memberWithFiveBoats());
                 break;
         }
 
