@@ -1,5 +1,6 @@
 package com.boatclub.view;
 
+import com.boatclub.controller.MemberFilterAction;
 import com.boatclub.controller.UserAction;
 import com.boatclub.model.Boat;
 
@@ -11,6 +12,7 @@ public class View extends ConsoleUI {
 
     private HashMap<UserAction, String> menuOptions = new HashMap<>();
     private HashMap<Boat.Type, String> boatTypeOptions = new HashMap<>();
+    private HashMap<MemberFilterAction, String> memberFilterOptions = new HashMap<>();
     private String memberRowFormat = "| %5s | %30s | %20s | %20s |\n";
     private Pattern pnoPattern = Pattern.compile("[0-9]{6}-[0-9]{4}");
 
@@ -34,6 +36,10 @@ public class View extends ConsoleUI {
         boatTypeOptions.put(Boat.Type.Motorsailer, "Motorsailer");
         boatTypeOptions.put(Boat.Type.KayakOrCanoe, "Kayak/Canoe");
         boatTypeOptions.put(Boat.Type.Other, "Other");
+
+        memberFilterOptions.put(MemberFilterAction.None, "No filter");
+        memberFilterOptions.put(MemberFilterAction.MemberWithNameThatStartWithSi, "Only members with name that starts with 'si'");
+        memberFilterOptions.put(MemberFilterAction.MemberWithFiveBoats, "Only members with 5 boats");
     }
 
     public void displayWelcomeMessage () {
@@ -58,6 +64,16 @@ public class View extends ConsoleUI {
 
     public void displayWrongCredentials() {
         showText("Wrong credentials");
+    }
+
+    public MemberFilterAction getMemberFilter () {
+        MemberFilterAction[] availableActions = MemberFilterAction.values();
+
+        showText("Apply filter on list");
+        showText("––––––––––––––––––––––––––");
+        displayOptions(availableActions, memberFilterOptions);
+
+        return getUserChoice(availableActions);
     }
 
     public void displayMemberListHeader () {

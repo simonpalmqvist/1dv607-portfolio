@@ -124,20 +124,38 @@ public class Router {
     }
 
     private void showListOfMembersCompact () {
+        Member[] members = filterMembers();
+
         view.displayMemberListHeader();
 
-        for (Member member : model.getAllMembers()) {
+        for (Member member : members) {
             view.displayMemberListRow(member.getId(), member.getName(), member.getPno(), member.getNumberOfBoats());
         }
     }
 
     private void showListOfMembersVerbose () {
-        for (Member member : model.getAllMembers()) {
+        Member[] members = filterMembers();
+
+        for (Member member : members) {
 
             view.displayMember(member.getName(), member.getPno(), member.getId());
 
             showListOfMembersBoats(member.getBoats());
         }
+    }
+
+    private Member[] filterMembers () {
+        MemberFilterAction choice = view.getMemberFilter();
+
+        Member[] members = {};
+
+        switch (choice) {
+            case None:
+                members = model.getAllMembers();
+                break;
+        }
+
+        return members;
     }
 
     private void showListOfMembersBoats (Boat[] boats) {
