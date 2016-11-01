@@ -6,8 +6,11 @@ Compiling and running the application worked fine. No bugs where found when runn
 
 ## Does the implementation and diagrams conform?
 Controller PlayGame implements the CardDrawnObserver-interface but this is not reflected in the class diagram. According to the UML standard this should be displayed with a dashed line with a empty arrow [1]. 
+
 Model Game creates an instance of the RulesFactory which is not shown as a dependency in the class diagram. According to the UML standard this should be displayed with a dashed line and an open arrow [1]. This dependency could also be avoided by moving the creation of the RulesFactory to the Dealer class according to the creator pattern [2, p424-425].
+
 Model Player has an association to several CardDrawnObserver but in the diagram it looks like Player implements CardDrawnObserver. The correct UML notation for an association should be a line with an open arrow to the CardDrawnObserver [1].
+
 Dealer implements Player but this is not shown in the class diagram. Should be shown with an UML notation for inheritance which is a line and an empty arrow [1].
 
 ## Is the dependency between controller and view handled?
